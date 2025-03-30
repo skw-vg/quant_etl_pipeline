@@ -1,0 +1,54 @@
+# ------------------
+# Python Files
+# ------------------
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+
+# ------------------
+# Virtual Environment
+# ------------------
+.venv/
+env/
+venv/
+ENV/
+
+# ------------------
+# PyCharm / IDE Stuff
+# ------------------
+.idea/
+*.iml
+
+# ------------------
+# Environment Variables
+# ------------------
+.env
+.env.*
+
+# ------------------
+# Data Outputs
+# ------------------
+data/
+*.db
+*.csv
+*.sqlite3
+*.parquet
+*.h5
+
+# ------------------
+# Jupyter Notebooks Checkpoints (if using notebooks)
+# ------------------
+.ipynb_checkpoints/
+
+# ------------------
+# Logs
+# ------------------
+*.log
+
+# ------------------
+# System Files
+# ------------------
+.DS_Store
+Thumbs.db
