@@ -2,6 +2,7 @@ from distutils.command.clean import clean
 
 import yaml                         # lets you read .yaml files
 from dotenv import load_dotenv      # loads environment variables from .env file
+import pandas as pd
 
 load_dotenv()                       # loads the .env file into your environment (for DB credentials later)
 
@@ -20,17 +21,20 @@ end_date = config["end_date"]
 
 
 if __name__ == '__main__':
-    # 1. Import needed functions
-    from src.ingestion.yfinance_loader import download_stock_data
-    from src.transformation.basic_cleaning import clean_data
-    from src.storage.db_writer import save_to_database
 
-    # 3. Run pipeline for one ticker ('AAPL')
-    df = download_stock_data(tickers[0], start_date, end_date)
-    clean_df = clean_data(df)
-    save_to_database(clean_df, table_name='market_data')
+    def run_pipeline_for_ticker(ticker:str, start_date: str, end_date: str) -> pd.DataFrame:
+        from src.ingestion.yfinance_loader import download_stock_data
+        from src.transformation.basic_cleaning import clean_data
+        from src.storage.db_writer import save_to_database
 
-    # 4. TEST output right here:
-    print(df.head())
-    print(clean_df.head())
-    print(clean_df.columns)
+        df = download_stock_data(ticker, start_date, end_date)
+        clean_df = clean_data(df)
+        save_to_database(clean_df, table_name='market_data')
+
+        print(df.head())
+        print(clean_df.head())
+        print(clean_df.columns)
+
+
+    # Run pipeline for one ticker ('AAPL')
+    run_pipeline_for_ticker(tickers[0], start_date, end_date)
