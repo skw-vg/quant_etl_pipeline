@@ -4,8 +4,11 @@ from typing import List
 def add_moving_averages(
     df: pd.DataFrame,
     column: str = "Close",                                              # default keyword argument
-    windows: List[int] = [5, 10, 20, 50, 100, 200]                      # default keyword argument
+    windows: List[int] = None                                           # default keyword argument
 ) -> pd.DataFrame:
+
+    if windows is None:
+        windows = [5, 10, 20, 50, 100, 200]
 
     for window in windows:
         # Generate column name, e.g., "SMA,5", "SMA_20, etc.
