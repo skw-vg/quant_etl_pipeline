@@ -131,3 +131,51 @@ def strategy_adx_cci_pullback(df: pd.DataFrame) -> tuple:
     return buy_signal, sell_signal
 
 
+# Option 1
+def signals_to_weights_loop(df: pd.DataFrame, buy_signal, sell_signal) -> pd.Series:
+    position = pd.Series(index=df.index, data=0.0)
+    in_position = False
+
+    for i in range(1, len(df)):
+        if buy_signal.iloc[i] and not in_position:
+            position.iloc[i] = 1.0
+            in_position = True
+        elif sell_signal.iloc[i] and in_position:
+            position.iloc[i] = 0.0
+            in_position = False
+        else:
+            position.iloc[i] = position.iloc[i-1]
+
+    return position
+
+
+# Option 2
+def signals_to_weights_vectorized(df: pd.DataFrame, buy_signal, sell_signal) -> pd.Series:
+    signal = pd.Series(index=df.index)
+
+    signal[buy_signal] = 1.0
+    signal[sell_signal] = 0.0
+
+    position = signal.ffill().fillna(0.0)
+
+    return position
+    
+    
+    
+
+    
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
